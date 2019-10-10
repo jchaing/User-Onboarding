@@ -3,29 +3,42 @@ import { withFormik, Form, Field } from 'formik';
 import axios from 'axios';
 import * as Yup from 'yup';
 
-const UserForm = ({ values }) => {
-  console.log(values)
+const UserForm = ({ values, errors, touched }) => {
+  console.log(values.tos);
+  console.log(touched.fname);
   return (
-    <Form>
-      <div>
-        <Field type="text" name="fname" placeholder="Full Name" />
-      </div>
-      <div>
-        <Field type="email" name="email" placeholder="Email" />
-      </div>
-      <div>
-        <Field type="password" name="password" placeholder="Password" />
-      </div>
-      <div>
-        <label>
-          <Field type="checkbox" name="tos" />
-          Accept Terms of Service
-        </label>
-      </div>
-      <div>
-        <button type="submit">Submit</button>
-      </div>
-    </Form>
+    <div>
+      <Form>
+        <div>
+          <Field type="text" name="fname" placeholder="Full Name" />
+          {touched.fname && errors.fname && (
+            <p className="error">{errors.fname}</p>
+          )}
+        </div>
+        <div>
+          <Field type="email" name="email" placeholder="Email" />
+          {touched.email && errors.email && (
+            <p className="error">{errors.email}</p>
+          )}
+        </div>
+        <div>
+          <Field type="password" name="password" placeholder="Password" />
+          {touched.password && errors.password && (
+            <p className="error">{errors.password}</p>
+          )}
+        </div>
+        <div>
+          <label>
+            <Field type="checkbox" name="tos" checked={values.tos}/>
+            Accept Terms of Service
+          </label>
+          {touched.tos && errors.tos && <p className="error">{errors.tos}</p>}
+        </div>
+        <div>
+          <button type="submit">Submit</button>
+        </div>
+      </Form>
+    </div>
   );
 };
 
@@ -39,10 +52,20 @@ const FormikUserForm = withFormik({
     };
   },
 
+  validationSchema: Yup.object().shape({
+    fname: Yup.string().required('Name is required'),
+    email: Yup.string()
+      .email('Email not valid')
+      .required('Email is required'),
+    password: Yup.string()
+      .min(6, 'Password must be 6 characters or longer')
+      .required('Password is required'),
+    tos: Yup.boolean().oneOf([true], "Must Accept TOS")
+  }),
+
   handleSubmit(values) {
     console.log(values);
   }
-
 })(UserForm);
 
 export default FormikUserForm;
