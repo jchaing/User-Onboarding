@@ -29,7 +29,7 @@ const UserForm = ({ values, errors, touched }) => {
         </div>
         <div>
           <label>
-            <Field type="checkbox" name="tos" checked={values.tos}/>
+            <Field type="checkbox" name="tos" checked={values.tos} />
             Accept Terms of Service
           </label>
           {touched.tos && errors.tos && <p className="error">{errors.tos}</p>}
@@ -60,11 +60,26 @@ const FormikUserForm = withFormik({
     password: Yup.string()
       .min(6, 'Password must be 6 characters or longer')
       .required('Password is required'),
-    tos: Yup.boolean().oneOf([true], "Must Accept TOS")
+    tos: Yup.boolean().oneOf([true], 'Must Accept TOS')
   }),
 
-  handleSubmit(values) {
+  handleSubmit(values, { resetForm, setErrors, setSubmitting }) {
     console.log(values);
+    if (values.email === 'john@email.com') {
+      setErrors({ email: 'That email is already taken' });
+    } else {
+      axios
+        .post('https://reqres.in/api/users', values)
+        .then(res => {
+          console.log(res.data);
+          resetForm();
+          setSubmitting(false);
+        })
+        .catch(err => {
+          console.log(err);
+          setSubmitting(false);
+        });
+    }
   }
 })(UserForm);
 
