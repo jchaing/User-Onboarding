@@ -1,0 +1,61 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.App h1 {
+  color: #ffffff;
+}
+
+.user-form{
+  background: yellow;
+  padding: 40px 0;
+  padding-left: 250px;
+  width: 540px;
+}
+
+.error {
+  color: red;
+}
+
+input {
+  margin-top: 20px;
+  padding: 5px;
+  width: 50%;
+  font-size: 18px;
+}
+
+.role-select {
+  margin-top: 20px;
+  width: 50%;
+  font-size: 16px;
+}
+
+.tos {
+  display: block;
+  position: relative;
+  margin-top: 20px;
+}
+
+span {
+  margin-left: -250px;
+}
+
+button {
+  margin-top: 30px;
+  font-size: 16px;
+}
+
+ul {
+  border: 5px solid purple;
+  border-radius: 20px;
+  padding: 10px;
+  width: 300px;
+}
+
+li {
+  /* border: 1px solid red; */
+  list-style-type: none;
+}
